@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Checkout</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<script>
+    // Check if the user is logged in
+    function checkLogin() {
+        var username = sessionStorage.getItem('userName');
+        if (!username) {
+            window.location.href = '/.html'; // Redirect to login page
+        }
+    }
+</script>
+
+<body onload="checkLogin()">
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid mb-5">
+        <div class="row border-top px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+
+            </div>
+            <div class="col-lg-12">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="index.html" class="nav-item nav-link ">Home</a>
+                            <a href="appointment.html" class="nav-item nav-link active">Appointment</a>
+                            <a href="contact.html" class="nav-item nav-link ">Contact</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Checkout</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Checkout</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Checkout Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <div class="col-lg-8">
+                <div class="mb-4">
+                    <h4 class="font-weight-semi-bold mb-4">Appointment Datails</h4>
+                    <div class="row">
+                        <div class="col-md-6 form-group">
+                            <label>Customer Name</label>
+                            <input class="form-control" type="text" readonly id="input1">
+                        </div>
+                        <div class="col-md-6 form-group">
+                            <label>Consultant Name</label>
+                            <input class="form-control" type="text" readonly id="input2">
+                        </div>
+                        <div class=" col-md-6 form-group ">
+                            <label>Book date</label>
+                            <input class="form-control " type="date" id="input3" required>
+                        </div>
+                        <div class="col-md-6 form-group ">
+                            <label>Time</label>
+                            <input class="form-control " type="text " id="input4" required>
+                        </div>
+                        <div class="col-md-6 form-group ">
+                            <label>Contact Number</label>
+                            <input class="form-control " type="text " id="input5" required>
+                        </div>
+                        <div class="col-md-6 form-group ">
+                            <label>Email Address</label>
+                            <input class="form-control " type="text " id="input6" required>
+                        </div>
+
+                        <div class="card-footer border-secondary bg-transparent ">
+                            <button class="btn btn-lg btn-block btn-primary font-weight-bold my-3 py-3 " onclick="save()">Book Appointment</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Checkout End -->
+
+        <script>
+            window.onload = function() {
+                var urlParams = new URLSearchParams(window.location.search);
+                var c_name = urlParams.get('name');
+
+                if (c_name) {
+                    // Store the name in session storage
+                    sessionStorage.setItem('name', c_name);
+                    console.log(c_name);
+
+                    // Populate the input field with the c_name value
+                    var nameInput = document.getElementById('input2');
+                    if (nameInput) {
+                        nameInput.value = c_name;
+                    }
+                }
+
+                const storedUserName = sessionStorage.getItem("userName");
+
+                // Check if the stored username exists
+                if (storedUserName) {
+                    // Set the stored username as the value of the input field
+                    document.getElementById("input1").value = storedUserName;
+                }
+            }
+
+            const dateInput = document.getElementById('input3');
+
+            // Function to set the minimum date to today's date
+            function setMinDate() {
+                const today = new Date();
+                const day = today.getDate().toString().padStart(2, '0');
+                const month = (today.getMonth() + 1).toString().padStart(2, '0');
+                const year = today.getFullYear();
+                const minDate = `${year}-${month}-${day}`;
+                dateInput.setAttribute('min', minDate);
+            }
+
+            // Call the function to set the minimum date initially
+            setMinDate();
+
+            // Add an event listener to update the minimum date if the input is focused
+            dateInput.addEventListener('focus', setMinDate);
+
+
+
+
+            
+           
+    // Function to validate the form fields
+    function validateForm() {
+        var u_name = document.getElementById('input1').value;
+        var c_name = document.getElementById('input2').value;
+        var book_date = document.getElementById('input3').value;
+        var time = document.getElementById('input4').value;
+        var contact = document.getElementById('input5').value;
+        var mail = document.getElementById('input6').value;
+
+        // Regular expression for validating email address
+        var emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+        // Check if any field is empty or invalid
+        if (u_name.trim() === '' || c_name.trim() === '' || book_date.trim() === '' || time.trim() === '' || contact.trim() === '' || mail.trim() === '') {
+            alert('Please fill in all fields.');
+            return false;
+        } else if (!emailPattern.test(mail)) {
+            alert('Please enter a valid email address.');
+            return false;
+        } else {
+            // All fields are valid
+            return true;
+        }
+    }
+
+    // Function to handle form submission
+    function save() {
+        if (validateForm()) {
+            // Proceed with form submission
+            var u_name = $("#input1").val();
+            var c_name = $("#input2").val();
+            var book_date = $("#input3").val();
+            var time = $("#input4").val();
+            var contact = $("#input5").val();
+            var mail = $("#input6").val();
+
+            $.ajax({
+                method: "POST",
+                contentType: "application/json",
+                url: "http://localhost:8080/api/v1/appoinment/saveappoinment",
+                async: true,
+                data: JSON.stringify({
+                    u_name: u_name,
+                    c_name: c_name,
+                    book_date: book_date,
+                    time: time,
+                    contact: contact,
+                    mail: mail,
+                }),
+                success: function(data) {
+                    alert("Appointment Added Successfully");
+                    window.location.href = '?refresh=true';
+                },
+                error: function(xhr, exception) {
+                    alert("Error");
+                },
+            });
+        }
+    }
+</script>
+
+
+        <!-- Back to Top -->
+        <a href="# " class="btn btn-primary back-to-top "><i class="fa fa-angle-double-up "></i></a>
+
+
+        <!-- JavaScript Libraries -->
+        <script src="https://code.jquery.com/jquery-3.4.1.min.js "></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js "></script>
+        <script src="lib/easing/easing.min.js "></script>
+        <script src="lib/owlcarousel/owl.carousel.min.js "></script>
+
+        <!-- Contact Javascript File -->
+        <script src="mail/jqBootstrapValidation.min.js "></script>
+        <script src="mail/contact.js "></script>
+
+        <!-- Template Javascript -->
+        <script src="js/main.js "></script>
+</body>
+
+</html>

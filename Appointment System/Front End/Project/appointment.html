@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <title>Online Appointment</title>
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="img/favicon.ico" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="css/style.css" rel="stylesheet">
+</head>
+
+<body>
+
+
+    <!-- Navbar Start -->
+    <div class="container-fluid mb-5">
+        <div class="row border-top px-xl-5">
+            <div class="col-lg-3 d-none d-lg-block">
+
+            </div>
+            <div class="col-lg-12">
+                <nav class="navbar navbar-expand-lg bg-light navbar-light py-3 py-lg-0 px-0">
+                    <a href="" class="text-decoration-none d-block d-lg-none">
+                        <h1 class="m-0 display-5 font-weight-semi-bold"><span class="text-primary font-weight-bold border px-3 mr-1">E</span>Shopper</h1>
+                    </a>
+                    <button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+                        <div class="navbar-nav mr-auto py-0">
+                            <a href="index.html" class="nav-item nav-link ">Home</a>
+                            <a href="appointment.html" class="nav-item nav-link active">Appointment</a>
+                            <a href="contact.html" class="nav-item nav-link ">Contact</a>
+                        </div>
+
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </div>
+    <!-- Navbar End -->
+
+
+    <!-- Page Header Start -->
+    <div class="container-fluid bg-secondary mb-5">
+        <div class="d-flex flex-column align-items-center justify-content-center" style="min-height: 300px">
+            <h1 class="font-weight-semi-bold text-uppercase mb-3">Appointment</h1>
+            <div class="d-inline-flex">
+                <p class="m-0"><a href="">Home</a></p>
+                <p class="m-0 px-2">-</p>
+                <p class="m-0">Appointment</p>
+            </div>
+        </div>
+    </div>
+    <!-- Page Header End -->
+
+
+    <!-- Shop Start -->
+    <div class="container-fluid pt-5">
+        <div class="row px-xl-5">
+            <!-- Shop Sidebar Start -->
+            <div class="col-lg-3 col-md-12">
+                <!-- Price Start -->
+                <div class="border-bottom mb-4 pb-4">
+                    <h5 class="font-weight-semi-bold mb-4">Filter by Time</h5>
+                    <form>
+                        <div class="categories__accordion">
+                            <div class="accordion" id="accordionExample">
+                                <div class="sidebar__filter mt-5">
+                                    <div class="filter-range-wrap">
+                                        <label for="" style="font-weight: bold;">Start Time :</label>
+                                        <input type="number" id="startTimeFilter" placeholder="Start Time" />
+                                    </div>
+                                    <br /><br />
+
+                                    <div class="filter-range-wrap">
+                                        <label for="" style="font-weight: bold;">End Time :</label>
+                                        <input type="number" id="endTimeFilter" placeholder="End Time" />
+                                        <!-- <a href="#" id="filterButton">Filter</a> -->
+                                    </div>
+                                    <br /><br />
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                <!-- Price End -->
+            </div>
+            <!-- Shop Sidebar End -->
+
+
+            <!-- Shop Product Start -->
+            <div class="col-lg-9 col-md-12">
+                <div class="row pb-3">
+                    <div class="col-12 pb-1">
+                        <div class="d-flex align-items-center justify-content-between mb-4">
+                        </div>
+                    </div>
+
+
+                    <div class="row" id="productList">
+
+                    </div>
+
+                    <script>
+                        const productList = document.getElementById("productList");
+                        const startTimeFilter = document.getElementById("startTimeFilter");
+                        const endTimeFilter = document.getElementById("endTimeFilter");
+
+                        // Function to fetch and display products
+                        const fetchProducts = () => {
+                            // Fetch product data from the API
+                            fetch("http://localhost:8080/api/v1/consult/getconsult")
+                                .then((response) => response.json())
+                                .then((products) => {
+                                    // Clear the existing product list
+                                    productList.innerHTML = "";
+
+                                    // Loop through products and generate HTML content
+                                    products.forEach((product) => {
+                                        const productItem = document.createElement("div");
+                                        productItem.className = "col-lg-4 col-md-6 col-sm-12 pb-1";
+                                        productItem.innerHTML = ` <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="img-fluid w-100" src="img/user.png" alt="">
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">${product.name}</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>Available Time: ${product.start_time} -  ${product.end_time}</h6>
+                                   
+                                </div>
+                                <a href="${getUserLink(product)}"><button class="btn btn-primary mt-4">Book Appointment</button></a>
+                            </div>
+                        </div>
+                    `;
+
+                                        productList.appendChild(productItem);
+                                    });
+                                })
+                                .catch((error) => {
+                                    console.error("Error fetching product data:", error);
+                                });
+                        };
+
+
+                        // Function to determine the appropriate link based on user login status
+                        const getUserLink = (product) => {
+                            // Replace this with your actual logic to check user session or authentication
+                            var username = sessionStorage.getItem('userName');
+                            if (!username) {
+                                window.location.href = 'login.html'; // Redirect to login page
+                            } else {
+                                return `checkout.html?name=${encodeURIComponent(product.name)}`;
+                            }
+
+                            // if (userIsLoggedIn) {
+
+                            // } else {
+                            //     return `login.html`;
+                            // }
+                        };
+
+                        // Initial fetch to load all products by default
+                        fetchProducts();
+
+
+                        // Function to fetch and display filtered products
+                        const fetchFilteredProducts = (startTime) => {
+                            // Fetch filtered product data from the API
+                            fetch(`http://localhost:8080/api/v1/consult/filter-by-start-time`, {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        start_time: startTime,
+
+                                    }),
+                                })
+                                .then((response) => response.json())
+                                .then((filteredProducts) => {
+                                    // Clear the existing product list
+                                    productList.innerHTML = "";
+                                    if (filteredProducts.length === 0) {
+                                        // Create an error message element
+                                        const errorMessage = document.createElement("div");
+                                        errorMessage.className = "col-lg-9 text-danger text-bold";
+                                        errorMessage.textContent = "Consultant Not Found.";
+
+                                        productList.appendChild(errorMessage);
+                                    } else {
+                                        // Loop through filtered products and generate HTML content
+                                        filteredProducts.forEach((product) => {
+                                            const productItem = document.createElement("div");
+                                            productItem.className = "col-lg-4 col-md-6 col-sm-12 pb-1";
+                                            productItem.innerHTML = ` <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="img-fluid w-100" src="img/user.png" alt="">
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">${product.name}</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>Available Time: ${product.start_time} -  ${product.end_time}</h6>
+                                   
+                                </div>
+                                <a href="${getUserLink(product)}"><button class="btn btn-primary mt-4">Book Appointment</button></a>
+                            </div>
+                        </div>
+                                        `;
+
+                                            productList.appendChild(productItem);
+                                        });
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.error("Error fetching filtered product data:", error);
+                                });
+                        };
+
+
+                        // Function to fetch and display filtered products
+                        const fetchFilteredProductsend = (endTime) => {
+                            // Fetch filtered product data from the API
+                            fetch(`http://localhost:8080/api/v1/consult/filter-by-end-time`, {
+                                    method: "POST",
+                                    headers: {
+                                        "Content-Type": "application/json",
+                                    },
+                                    body: JSON.stringify({
+                                        end_time: endTime,
+
+                                    }),
+                                })
+                                .then((response) => response.json())
+                                .then((filteredProducts) => {
+                                    // Clear the existing product list
+                                    productList.innerHTML = "";
+                                    if (filteredProducts.length === 0) {
+                                        // Create an error message element
+                                        const errorMessage = document.createElement("div");
+                                        errorMessage.className = "col-lg-9 text-danger text-bold";
+                                        errorMessage.textContent = "Consultant Not Found.";
+
+                                        productList.appendChild(errorMessage);
+                                    } else {
+                                        // Loop through filtered products and generate HTML content
+                                        filteredProducts.forEach((product) => {
+                                            const productItem = document.createElement("div");
+                                            productItem.className = "col-lg-4 col-md-6 col-sm-12 pb-1";
+                                            productItem.innerHTML = ` <div class="card product-item border-0 mb-4">
+                            <div class="card-header product-img position-relative overflow-hidden bg-transparent border p-0">
+                                <img class="img-fluid w-100" src="img/user.png" alt="">
+                            </div>
+                            <div class="card-body border-left border-right text-center p-0 pt-4 pb-3">
+                                <h6 class="text-truncate mb-3">${product.name}</h6>
+                                <div class="d-flex justify-content-center">
+                                    <h6>Available Time: ${product.start_time} -  ${product.end_time}</h6>
+                                   
+                                </div>
+                                <a href="${getUserLink(product)}"><button class="btn btn-primary mt-4">Book Appointment</button></a>
+                            </div>
+                        </div>
+                      
+                                        `;
+
+                                            productList.appendChild(productItem);
+                                        });
+                                    }
+                                })
+                                .catch((error) => {
+                                    console.error("Error fetching filtered product data:", error);
+                                });
+                        };
+
+
+
+
+                        // Event listener for input changes in the filter fields
+                        startTimeFilter.addEventListener("input", () => {
+                            const startTime = startTimeFilter.value;
+                            const endTime = endTimeFilter.value;
+                            if (startTime === "") {
+                                fetchProducts();
+                            } else {
+                                fetchFilteredProducts(startTime);
+                            }
+                        });
+
+                        endTimeFilter.addEventListener("input", () => {
+                            const startTime = startTimeFilter.value;
+                            const endTime = endTimeFilter.value;
+                            if (endTime === "") {
+                                fetchProducts();
+                            } else {
+                                fetchFilteredProductsend(endTime);
+                            }
+                        });
+
+                        // Initial fetch to load all products by default
+                        fetchProducts();
+                    </script>
+
+                </div>
+            </div>
+            <!-- Shop Product End -->
+        </div>
+    </div>
+    <!-- Shop End -->
+
+
+
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-primary back-to-top"><i class="fa fa-angle-double-up"></i></a>
+
+
+    <!-- JavaScript Libraries -->
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>
+    <script src="lib/easing/easing.min.js"></script>
+    <script src="lib/owlcarousel/owl.carousel.min.js"></script>
+
+    <!-- Contact Javascript File -->
+    <script src="mail/jqBootstrapValidation.min.js"></script>
+    <script src="mail/contact.js"></script>
+
+    <!-- Template Javascript -->
+    <script src="js/main.js"></script>
+</body>
+
+</html>
